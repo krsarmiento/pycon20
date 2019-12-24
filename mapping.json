@@ -1,0 +1,25 @@
+{
+  "mappings":{
+    "properties":{
+      "name":{
+        "type":"text"
+      },
+      "canonical_name":{
+        "type":"text"
+      },
+      "location":{
+        "type":"geo_shape",
+        "precision":"20m"
+      },
+      "schedule_start":{
+        "type":"integer"
+      },
+      "schedule_ends":{
+        "type":"integer"
+      },
+      "rating":{
+        "type":"integer"
+      }
+    }
+  }
+}

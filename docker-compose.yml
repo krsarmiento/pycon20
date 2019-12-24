@@ -1,0 +1,45 @@
+version: '2.2'
+services:
+  es01:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.5.1
+    container_name: es01
+    environment:
+      - node.name=es01
+      - cluster.name=es-docker-cluster
+      - cluster.initial_master_nodes=es01
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - data01:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    networks:
+      - elastic
+
+  web:
+    restart: always
+    build: .
+    command: bash -c "sleep 5 && python /home/docker/code/manage.py collectstatic --noinput && python /home/docker/code/manage.py runserver 0.0.0.0:9000"
+    volumes:
+      - .:/home/docker/code
+    privileged: false
+    depends_on:
+      - es01
+    ports:
+      - 9000:9000
+    expose:
+      - 9000
+    networks:
+      - elastic
+
+volumes:
+  data01:
+    driver: local
+
+networks:
+  elastic:
+    driver: bridge
