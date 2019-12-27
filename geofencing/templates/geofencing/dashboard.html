@@ -51,39 +51,36 @@
 
       <script>
             function initialize() {
-                var mapOptions = {
+                const mapOptions = {
                     zoom: 15,
                     center: new google.maps.LatLng(6.1766784, -75.5858882),
                     mapTypeId: google.maps.MapTypeId.ROADMAP
                 };
 
-                var map = new google.maps.Map(document.getElementById('map-canvas'),  mapOptions);
-                var arr = new Array();
-                var polygons = [];
-                var bounds = new google.maps.LatLngBounds();
+                const map = new google.maps.Map(document.getElementById('map-canvas'),  mapOptions);
+                let arr = new Array();
+                const bounds = new google.maps.LatLngBounds();
 
-                var Httpreq = new XMLHttpRequest(); // a new request
+                const Httpreq = new XMLHttpRequest(); // a new request
                 Httpreq.open("GET","/lentti/search?coordinates={{coordinates}}",false);
                 Httpreq.send(null);
-                polygons = JSON.parse(Httpreq.responseText);
+                const polygons = JSON.parse(Httpreq.responseText);
 
-                var coordinates = "{{coordinates}}";
-                console.log(coordinates);
+                const coordinates = "{{coordinates}}";
                 if (coordinates !== "None") {
                     let splittedCoordinates = coordinates.split(",");
                     let lat = parseFloat(splittedCoordinates[0]);
                     let long = parseFloat(splittedCoordinates[1]);
-                    var myLatLng = {lat: lat, lng: long};
-                    var marker = new google.maps.Marker({
+                    const myLatLng = {lat: lat, lng: long};
+                    const marker = new google.maps.Marker({
                         position: myLatLng,
                         map: map,
                         title: 'Here I am!'
                     });
                 }
 
-                var ulist = document.getElementById("names");
-                var colors = [
-                    "#001f3f",
+                const restaurantList = document.getElementById("restaurant-list");
+                let colors = [
                     "#0074D9",
                     "#7FDBFF",
                     "#39CCCC",
@@ -93,31 +90,64 @@
                     "#FFDC00",
                     "#FF851B",
                     "#FF4136",
-                    "#85144b",
                     "#F012BE",
-                    "#B10DC9",
                     "#fdadc7",
-                    "#993399",
                     "#ea4c88",
                     "#ffa258",
                     "#ff7777",
                     "#65c0ba",
                 ];
-                for (var i = 0; i < polygons.length; i++) {
+                for (let i = 0; i < polygons.length; i++) {
                     let color = colors[Math.floor(Math.random()*colors.length)];
-                    colors = colors.filter(c => {console.log(c, c != color); return c != color});
+                    colors = colors.filter(c => c != color);
                     if (polygons[i].name) {
-                        let elem = document.createElement("li");
-                        elem.appendChild(document.createTextNode(polygons[i].name));
-                        elem.setAttribute("style", "color: " + color);
-                        ulist.appendChild(elem);
+                        let restaurant = document.createElement("div");
+                        restaurant.className = "media text-muted pt-3";
+
+                        let logo = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                        logo.classList.add("bd-placeholder-img");
+                        logo.classList.add("mr-2");
+                        logo.classList.add("rounded");
+                        logo.setAttribute("width", "32");
+                        logo.setAttribute("height", "32");
+
+                        let rectangle = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                        rectangle.setAttribute("width", "32");
+                        rectangle.setAttribute("height", "32");
+                        rectangle.setAttribute("fill", color);
+                        logo.appendChild(rectangle);
+
+                        let outerContainer = document.createElement("div");
+                        outerContainer.className = "media-body pb-3 mb-0 small lh-125 border-bottom border-gray";
+
+                        let innerContainer = document.createElement("div");
+                        innerContainer.className = "d-flex justify-content-between align-items-center w-100";
+                        outerContainer.appendChild(innerContainer);
+
+                        let name = document.createElement("strong");
+                        name.appendChild(document.createTextNode(polygons[i].name));
+                        innerContainer.appendChild(name);
+
+                        let orderLink = document.createElement("a");
+                        orderLink.setAttribute("href", "#");
+                        orderLink.appendChild(document.createTextNode("Pedir"));
+                        innerContainer.appendChild(orderLink);
+
+                        let category = document.createElement("span");
+                        category.className = "d-block";
+                        category.appendChild(document.createTextNode("Comida Japonesa"));
+                        outerContainer.appendChild(category);
+
+                        restaurant.appendChild(logo);
+                        restaurant.appendChild(outerContainer);
+                        restaurantList.appendChild(restaurant);
                     }
                     arr = [];
                     if (!polygons[i].location) {
                         continue;
                     }
-                    var coordinates = polygons[i].location.coordinates[0];
-                    for (var j=0; j < coordinates.length; j++) {
+                    const coordinates = polygons[i].location.coordinates[0];
+                    for (let j=0; j < coordinates.length; j++) {
                         arr.push( new google.maps.LatLng(
                             parseFloat(coordinates[j][1]),
                             parseFloat(coordinates[j][0])
@@ -143,37 +173,11 @@
   </head>
   <body>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-  <a class="navbar-brand" href="#">Navbar</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-        <div class="dropdown-menu" aria-labelledby="dropdown01">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-      </li>
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
-  </div>
-</nav>
+      <a class="navbar-brand" href="#">Lentti</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </nav>
 
 <main role="main">
 
@@ -193,53 +197,10 @@
     </div>
 
   <div class="container">
-      <div class="my-3 p-3 bg-white rounded shadow-sm">
-            <h6 class="border-bottom border-gray pb-2 mb-0">Suggestions</h6>
-            <div class="media text-muted pt-3">
-                <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32">
-                    <title>Placeholder</title>
-                    <rect width="100%" height="100%" fill="#007bff" />
-                    <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
-                </svg>
-                <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                    <div class="d-flex justify-content-between align-items-center w-100">
-                        <strong class="text-gray-dark">Full Name</strong>
-                        <a href="#">Follow</a>
-                    </div>
-                    <span class="d-block">@username</span>
-                </div>
-            </div>
-            <div class="media text-muted pt-3">
-                <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32">
-                    <title>Placeholder</title>
-                    <rect width="100%" height="100%" fill="#007bff" />
-                    <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
-                </svg>
-                <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                    <div class="d-flex justify-content-between align-items-center w-100">
-                        <strong class="text-gray-dark">Full Name</strong>
-                        <a href="#">Follow</a>
-                    </div>
-                    <span class="d-block">@username</span>
-                </div>
-            </div>
-            <div class="media text-muted pt-3">
-                <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32">
-                    <title>Placeholder</title>
-                    <rect width="100%" height="100%" fill="#007bff" />
-                    <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
-                </svg>
-                <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                    <div class="d-flex justify-content-between align-items-center w-100">
-                        <strong class="text-gray-dark">Full Name</strong>
-                        <a href="#">Follow</a>
-                    </div>
-                    <span class="d-block">@username</span>
-                </div>
-            </div>
-            <small class="d-block text-right mt-3">
-      <a href="#">All suggestions</a>
-    </small>
+      <div id="restaurant-list" class="my-3 p-3 bg-white rounded shadow-sm">
+            <h6 class="border-bottom border-gray pb-2 mb-0">
+                Lugares cerca a ti
+            </h6>
         </div>
   </div>
 
