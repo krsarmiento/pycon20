@@ -85,9 +85,6 @@ def search(request):
             }
         }
 
-    import json
-    print(json.dumps(query))
-
     response = []
     res = elastic_search.search(index=INDEX_NAME, body=query)
     for hit in res['hits']['hits']:
