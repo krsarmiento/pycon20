@@ -11,14 +11,12 @@
         "type":"geo_shape",
         "precision":"20m"
       },
-      "schedule_start":{
-        "type":"integer"
-      },
-      "schedule_ends":{
-        "type":"integer"
-      },
-      "rating":{
-        "type":"integer"
+      "schedule" : {
+        "type" : "nested",
+        "properties": {
+          "starts" : { "type" : "integer" },
+          "ends": { "type" : "integer" }
+        }
       }
     }
   }

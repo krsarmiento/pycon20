@@ -39,6 +39,8 @@ def elastic_setup(request):
     polygon_upload_results = []
     for polygon in polygons:
         place["name"] = polygon["name"]
+        place["canonical_name"] = polygon["canonical_name"]
+        place["schedule"] = polygon["schedule"]
         place["location"]["coordinates"] = polygon["coordinates"]
         res = elastic_search.index(index=INDEX_NAME, body=place)
         polygon_upload_results.append(res)
@@ -50,13 +52,21 @@ def elastic_setup(request):
 def search(request):
     elastic_search = Elasticsearch([ES_HOST], port=ES_PORT)
 
+    range_filters = [
+        {"range": {"schedule.starts": {"lte": 720}}},
+        {"range": {"schedule.ends": {"gte": 720}}},
+    ]
+
+    nested_query = {
+        "nested": {
+            "path": "schedule",
+            "query": {"bool": {"filter": range_filters}}
+        }
+    }
+
     query = {
-        "query":{
-            "bool": {
-                "must": {
-                    "match_all": {}
-                }
-            }
+        "query": {
+            "bool": {"must": nested_query}
         }
     }
 
@@ -68,12 +78,15 @@ def search(request):
                 "location": {
                     "shape": {
                         "type": "point",
-                        "coordinates" : [longitude, latitude]
+                        "coordinates": [longitude, latitude]
                     },
                     "relation": "contains"
                 }
             }
         }
+
+    import json
+    print(json.dumps(query))
 
     response = []
     res = elastic_search.search(index=INDEX_NAME, body=query)

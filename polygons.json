@@ -1,6 +1,8 @@
 [
     {
         "name": "Restaurante El Cielo",
+        "canonical_name": "Restaurante El Cielo",
+        "schedule": [{"starts":600,"ends":900}, {"starts":1080,"ends":1380}],
         "coordinates": [
             [
                 [-75.564618,6.212486],
@@ -16,6 +18,8 @@
     },
     {
         "name": "Chef Burger El Poblado",
+        "canonical_name": "Chef Burger",
+        "schedule": [{"starts":480,"ends":1320}],
         "coordinates": [
             [
                 [-75.564590,6.212419],
@@ -31,7 +35,9 @@
         ]
     },
     {
-        "name": "Bar El Blue",
+        "name": "McDonald's",
+        "canonical_name": "McDonald's Poblado",
+        "schedule": [{"starts":480,"ends":1320}],
         "coordinates": [
             [
                 [-75.569943,6.214777],
@@ -54,7 +60,9 @@
         ]
     },
     {
-        "name": "Restaurante Provenza",
+        "name": "Subway La 10",
+        "canonical_name": "Subway",
+        "schedule": [{"starts":480,"ends":1320}],
         "coordinates": [
             [
                 [-75.565556,6.202316],
@@ -74,6 +82,8 @@
     },
     {
         "name": "Restaurante Barcal",
+        "canonical_name": "Restaurante Barcal",
+        "schedule": [{"starts":600,"ends":900}, {"starts":1080,"ends":1380}],
         "coordinates": [
             [
                 [-75.573428,6.211777],
@@ -89,6 +99,8 @@
     },
     {
         "name": "Café Zorba",
+        "canonical_name": "Café Zorba",
+        "schedule": [{"starts":1080,"ends":1320}],
         "coordinates": [
             [
                 [-75.568624,6.206367],
@@ -112,7 +124,9 @@
         ]
     },
     {
-        "name": "Babylon",
+        "name": "Alambique",
+        "canonical_name": "Alambique",
+        "schedule": [{"starts":1080,"ends":1380}],
         "coordinates": [
             [
                 [-75.571777,6.209426],
