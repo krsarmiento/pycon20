@@ -15,7 +15,8 @@
         "type" : "nested",
         "properties": {
           "starts" : { "type" : "integer" },
-          "ends": { "type" : "integer" }
+          "ends": { "type" : "integer" },
+          "description": { "type" : "text" }
         }
       }
     }

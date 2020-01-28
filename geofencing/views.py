@@ -1,15 +1,21 @@
-import os, json
-from django.shortcuts import render
-from django.http import JsonResponse, HttpResponseBadRequest
+import os
+import json
+from datetime import datetime
+import requests
+import pytz
+
+from django.http import JsonResponse
 from django.shortcuts import render
 from elasticsearch import Elasticsearch
-import requests
+from .schedule import Schedule
+
 
 ELASTIC_URL = 'localhost'
 INDEX_NAME = 'lentti'
 ES_HOST = 'es01'
 ES_PORT = 9200
 ES_URL = 'http://{}:{}/{}'.format(ES_HOST, ES_PORT, INDEX_NAME)
+TIMEZONE = 'America/Bogota'
 
 
 def elastic_setup(request):
@@ -52,9 +58,15 @@ def elastic_setup(request):
 def search(request):
     elastic_search = Elasticsearch([ES_HOST], port=ES_PORT)
 
+    current_datetime = datetime.now(pytz.timezone(TIMEZONE))
+    # current_datetime = datetime.strptime('2020-01-06T12:25:36-05:00', "%Y-%m-%dT%H:%M:%S%z")  # For Debugging
+
+    schedule = Schedule(current_datetime)
+    numeric_time = schedule.get_numeric_representation()
+
     range_filters = [
-        {"range": {"schedule.starts": {"lte": 720}}},
-        {"range": {"schedule.ends": {"gte": 720}}},
+        {"range": {"schedule.starts": {"lte": numeric_time}}},
+        {"range": {"schedule.ends": {"gte": numeric_time}}},
     ]
 
     nested_query = {
@@ -72,25 +84,34 @@ def search(request):
 
     coordinates = request.GET.get("coordinates", None)
     if coordinates and coordinates != "None":
-        latitude, longitude = coordinates.split(",")
-        query["query"]["bool"]["filter"] = {
-            "geo_shape": {
-                "location": {
-                    "shape": {
-                        "type": "point",
-                        "coordinates": [longitude, latitude]
-                    },
-                    "relation": "contains"
+        latitude, longitude = tuple(map(float, coordinates.split(',')))
+        query["query"]["bool"] = {
+            "must": nested_query,
+            "filter": {
+                "geo_shape": {
+                    "location": {
+                        "shape": {
+                            "type": "point",
+                            "coordinates": [longitude, latitude]
+                        },
+                        "relation": "intersects"
+                    }
                 }
             }
         }
 
-    response = []
+    results = []
     res = elastic_search.search(index=INDEX_NAME, body=query)
     for hit in res['hits']['hits']:
-        response.append(hit["_source"])
+        results.append(hit["_source"])
 
-    return JsonResponse(response, safe=False)
+    response = {
+        'results': results,
+        'current_datetime': current_datetime.strftime('%A, %Y-%m-%dT%H:%M:%S%z'),
+        'numeric_time': numeric_time,
+    }
+
+    return JsonResponse(response)
 
 
 def index(request):

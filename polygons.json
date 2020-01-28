@@ -2,7 +2,19 @@
     {
         "name": "Restaurante El Cielo",
         "canonical_name": "Restaurante El Cielo",
-        "schedule": [{"starts":600,"ends":900}, {"starts":1080,"ends":1380}],
+        "schedule": [
+            {"starts": 10600, "ends": 10900, "description": "[Monday] 10am-3pm"},
+            {"starts": 11080,"ends": 11380, "description": "[Monday] 6pm-11pm"},
+            {"starts": 20600, "ends": 20900, "description": "[Tuesday] 10am-3pm"},
+            {"starts": 21080,"ends": 21380, "description": "[Tuesday] 6pm-11pm"},
+            {"starts": 30600, "ends": 30900, "description": "[Wednesday] 10am-3pm"},
+            {"starts": 31080,"ends": 31380, "description": "[Wednesday] 6pm-11pm"},
+            {"starts": 40600, "ends": 40900, "description": "[Thursday] 10am-3pm"},
+            {"starts": 41080,"ends": 41380, "description": "[Thursday] 6pm-11pm"},
+            {"starts": 50600, "ends": 50900, "description": "[Friday] 10am-3pm"},
+            {"starts": 51080,"ends": 51380, "description": "[Friday] 6pm-11pm"},
+            {"starts": 60600, "ends": 60900, "description": "[Saturday] 10am-3pm"}
+        ],
         "coordinates": [
             [
                 [-75.564618,6.212486],
@@ -19,7 +31,15 @@
     {
         "name": "Chef Burger El Poblado",
         "canonical_name": "Chef Burger",
-        "schedule": [{"starts":480,"ends":1320}],
+        "schedule": [
+            {"starts": 10480, "ends": 11320, "description": "[Monday] 8am-10pm"},
+            {"starts": 20480, "ends": 21320, "description": "[Tuesday] 8am-10pm"},
+            {"starts": 30480, "ends": 31320, "description": "[Wednesday] 8am-10pm"},
+            {"starts": 40480, "ends": 41320, "description": "[Thursday] 8am-10pm"},
+            {"starts": 50480, "ends": 51320, "description": "[Friday] 8am-10pm"},
+            {"starts": 60480, "ends": 61320, "description": "[Saturday] 8am-10pm"},
+            {"starts": 70480, "ends": 71320, "description": "[Sunday] 8am-10pm"}
+        ],
         "coordinates": [
             [
                 [-75.564590,6.212419],
@@ -37,7 +57,15 @@
     {
         "name": "McDonald's",
         "canonical_name": "McDonald's Poblado",
-        "schedule": [{"starts":480,"ends":1320}],
+        "schedule": [
+            {"starts": 10480, "ends": 11320, "description": "[Monday] 8am-10pm"},
+            {"starts": 20480, "ends": 21320, "description": "[Tuesday] 8am-10pm"},
+            {"starts": 30480, "ends": 31320, "description": "[Wednesday] 8am-10pm"},
+            {"starts": 40480, "ends": 41320, "description": "[Thursday] 8am-10pm"},
+            {"starts": 50480, "ends": 51320, "description": "[Friday] 8am-10pm"},
+            {"starts": 60480, "ends": 61320, "description": "[Saturday] 8am-10pm"},
+            {"starts": 70480, "ends": 71320, "description": "[Sunday] 8am-10pm"}
+        ],
         "coordinates": [
             [
                 [-75.569943,6.214777],
@@ -62,7 +90,15 @@
     {
         "name": "Subway La 10",
         "canonical_name": "Subway",
-        "schedule": [{"starts":480,"ends":1320}],
+        "schedule": [
+            {"starts": 10480, "ends": 11320, "description": "[Monday] 8am-10pm"},
+            {"starts": 20480, "ends": 21320, "description": "[Tuesday] 8am-10pm"},
+            {"starts": 30480, "ends": 31320, "description": "[Wednesday] 8am-10pm"},
+            {"starts": 40480, "ends": 41320, "description": "[Thursday] 8am-10pm"},
+            {"starts": 50480, "ends": 51320, "description": "[Friday] 8am-10pm"},
+            {"starts": 60480, "ends": 61320, "description": "[Saturday] 8am-10pm"},
+            {"starts": 70480, "ends": 71320, "description": "[Sunday] 8am-10pm"}
+        ],
         "coordinates": [
             [
                 [-75.565556,6.202316],
@@ -83,7 +119,19 @@
     {
         "name": "Restaurante Barcal",
         "canonical_name": "Restaurante Barcal",
-        "schedule": [{"starts":600,"ends":900}, {"starts":1080,"ends":1380}],
+        "schedule": [
+            {"starts": 10600, "ends": 10900, "description": "[Monday] 10am-3pm"},
+            {"starts": 11080,"ends": 11380, "description": "[Monday] 6pm-11pm"},
+            {"starts": 20600, "ends": 20900, "description": "[Tuesday] 10am-3pm"},
+            {"starts": 21080,"ends": 21380, "description": "[Tuesday] 6pm-11pm"},
+            {"starts": 30600, "ends": 30900, "description": "[Wednesday] 10am-3pm"},
+            {"starts": 31080,"ends": 31380, "description": "[Wednesday] 6pm-11pm"},
+            {"starts": 40600, "ends": 40900, "description": "[Thursday] 10am-3pm"},
+            {"starts": 41080,"ends": 41380, "description": "[Thursday] 6pm-11pm"},
+            {"starts": 50600, "ends": 50900, "description": "[Friday] 10am-3pm"},
+            {"starts": 51080,"ends": 51380, "description": "[Friday] 6pm-11pm"},
+            {"starts": 60600, "ends": 60900, "description": "[Saturday] 10am-3pm"}
+        ],
         "coordinates": [
             [
                 [-75.573428,6.211777],
@@ -98,9 +146,14 @@
         ]
     },
     {
-        "name": "Café Zorba",
-        "canonical_name": "Café Zorba",
-        "schedule": [{"starts":1080,"ends":1320}],
+        "name": "Cafe-Bar Zorba",
+        "canonical_name": "Cafe-Bar Zorba",
+        "schedule": [
+            {"starts": 41140, "ends": 41410, "description": "[Thursday] 7pm-11:30pm"},
+            {"starts": 51140, "ends": 51410, "description": "[Friday] 7pm-11:30pm"},
+            {"starts": 61140, "ends": 61410, "description": "[Saturday] 7pm-11:30pm"},
+            {"starts": 71140, "ends": 71410, "description": "[Sunday] 7pm-11:30pm"}
+        ],
         "coordinates": [
             [
                 [-75.568624,6.206367],
@@ -126,7 +179,14 @@
     {
         "name": "Alambique",
         "canonical_name": "Alambique",
-        "schedule": [{"starts":1080,"ends":1380}],
+        "schedule": [
+            {"starts": 21170, "ends": 21410, "description": "[Tuesday] 7:30pm-11:30pm"},
+            {"starts": 31170, "ends": 31410, "description": "[Wednesday] 7:30pm-11:30pm"},
+            {"starts": 41170, "ends": 41410, "description": "[Thursday] 7:30pm-11:30pm"},
+            {"starts": 51170, "ends": 51410, "description": "[Friday] 7:30pm-11:30pm"},
+            {"starts": 61170, "ends": 61410, "description": "[Saturday] 7:30pm-11:30pm"},
+            {"starts": 71170, "ends": 71410, "description": "[Sunday] 7:30pm-11:30pm"}
+        ],
         "coordinates": [
             [
                 [-75.571777,6.209426],

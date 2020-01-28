@@ -64,7 +64,13 @@
                 const Httpreq = new XMLHttpRequest(); // a new request
                 Httpreq.open("GET","/lentti/search?coordinates={{coordinates}}",false);
                 Httpreq.send(null);
-                const polygons = JSON.parse(Httpreq.responseText);
+                const response = JSON.parse(Httpreq.responseText);
+                const polygons = response.results;
+
+                const currentDatetime = document.getElementById("current-datetime");
+                currentDatetime.textContent = response.current_datetime
+                const numericTime = document.getElementById("numeric-representation");
+                numericTime.textContent = response.numeric_time
 
                 const coordinates = "{{coordinates}}";
                 if (coordinates !== "None") {
@@ -186,6 +192,10 @@
     <div class="container">
         <div class="row">
             <div id="map-canvas" style="width: 1000px; height: 500px;"></div>
+            <div>
+                <strong id="current-datetime"></strong>
+                (<em id="numeric-representation"></em>)
+            </div>
         </div>
     </div>
   </div>
