@@ -40,9 +40,6 @@
         }
       }
     </style>
-    <!-- Custom styles for this template -->
-    <link href="jumbotron.css" rel="stylesheet">
-
 
       <script type="text/javascript"
           src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY">
@@ -61,8 +58,9 @@
                 let arr = new Array();
                 const bounds = new google.maps.LatLngBounds();
 
-                const Httpreq = new XMLHttpRequest(); // a new request
-                Httpreq.open("GET","/lentti/search?coordinates={{coordinates}}",false);
+                const Httpreq = new XMLHttpRequest();
+                const apiUrl = "/lentti/search?{{ querystring }}";
+                Httpreq.open("GET", apiUrl, false);
                 Httpreq.send(null);
                 const response = JSON.parse(Httpreq.responseText);
                 const polygons = response.results;
@@ -86,26 +84,11 @@
                 }
 
                 const restaurantList = document.getElementById("restaurant-list");
-                let colors = [
-                    "#0074D9",
-                    "#7FDBFF",
-                    "#39CCCC",
-                    "#3D9970",
-                    "#2ECC40",
-                    "#01FF70",
-                    "#FFDC00",
-                    "#FF851B",
-                    "#FF4136",
-                    "#F012BE",
-                    "#fdadc7",
-                    "#ea4c88",
-                    "#ffa258",
-                    "#ff7777",
-                    "#65c0ba",
-                ];
+                if (polygons.length === 0) {
+                    restaurantList.appendChild(document.createTextNode("Lo sentimos, no encontramos restaurantes cerca a tu ubicación."));
+                    bounds.extend(new google.maps.LatLng(6.17667, -75.58588));
+                }
                 for (let i = 0; i < polygons.length; i++) {
-                    let color = colors[Math.floor(Math.random()*colors.length)];
-                    colors = colors.filter(c => c != color);
                     if (polygons[i].name) {
                         let restaurant = document.createElement("div");
                         restaurant.className = "media text-muted pt-3";
@@ -120,7 +103,7 @@
                         let rectangle = document.createElementNS("http://www.w3.org/2000/svg", "rect");
                         rectangle.setAttribute("width", "32");
                         rectangle.setAttribute("height", "32");
-                        rectangle.setAttribute("fill", color);
+                        rectangle.setAttribute("fill", polygons[i].debug_color);
                         logo.appendChild(rectangle);
 
                         let outerContainer = document.createElement("div");
@@ -131,7 +114,7 @@
                         outerContainer.appendChild(innerContainer);
 
                         let name = document.createElement("strong");
-                        name.appendChild(document.createTextNode(polygons[i].name));
+                        name.appendChild(document.createTextNode(polygons[i].canonical_name));
                         innerContainer.appendChild(name);
 
                         let orderLink = document.createElement("a");
@@ -141,7 +124,7 @@
 
                         let category = document.createElement("span");
                         category.className = "d-block";
-                        category.appendChild(document.createTextNode("Comida Japonesa"));
+                        category.appendChild(document.createTextNode(polygons[i].category));
                         outerContainer.appendChild(category);
 
                         restaurant.appendChild(logo);
@@ -162,10 +145,10 @@
                     }
                     polygons.push(new google.maps.Polygon({
                         paths: arr,
-                        strokeColor: color,
+                        strokeColor: polygons[i].debug_color,
                         strokeOpacity: 0.8,
                         strokeWeight: 2,
-                        fillColor: color,
+                        fillColor: polygons[i].debug_color,
                         fillOpacity: 0.35
                     }));
                     polygons[polygons.length-1].setMap(map);
@@ -193,8 +176,8 @@
         <div class="row">
             <div id="map-canvas" style="width: 1000px; height: 500px;"></div>
             <div>
-                <strong id="current-datetime"></strong>
-                (<em id="numeric-representation"></em>)
+                <h2 id="current-datetime"></h2>
+                <h3 id="numeric-representation"></h3>
             </div>
         </div>
     </div>

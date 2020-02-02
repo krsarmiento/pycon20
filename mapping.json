@@ -7,6 +7,9 @@
       "canonical_name":{
         "type":"text"
       },
+      "category":{
+        "type":"text"
+      },
       "location":{
         "type":"geo_shape",
         "precision":"20m"
@@ -18,6 +21,9 @@
           "ends": { "type" : "integer" },
           "description": { "type" : "text" }
         }
+      },
+      "debug_color":{
+        "type":"text"
       }
     }
   }
